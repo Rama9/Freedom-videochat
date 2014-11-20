@@ -65,14 +65,6 @@ Chat.prototype.boot = function () {
   }.bind(this));
   
   /**
-  * on an 'onMessage' event from the Social provider
-  * Just forward it to the outer page
-  */
-  /*freedom.on('Ack-new', function (dataId) {
-    logger.log("Ack received :", dataId);
-  });*/
-  
-  /**
   * On user profile changes, let's keep track of them
   **/
   this.social.on('onUserProfile', function (data) {

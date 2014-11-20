@@ -80,16 +80,22 @@ function start(instance) {
   // Inform of the new arrival, to all others
   chatClient.on('new-join', function (dataId) {
     console.log('New Joinee : ', dataId);
-    //freedom.emit('Ack-new', dataId);
+    chatClient.send(dataId, "Ack-new");
   });
 
   // On new messages, append it to our message log
   chatClient.on('recv-message', function (data) {
+
+    if ( data.message === "Ack-new" ) {
+         console.log('Ack-new :', data.from.userId );
+    }
     // Show the name instead of the userId, if it's available.
-    var userId = data.from.userId,
-      displayName = buddylist[userId].name || userId,
-      message = displayName + ": " + data.message;
-    appendLog(document.createTextNode(message));
+    else {
+       var userId = data.from.userId,
+       displayName = buddylist[userId].name || userId,
+       message = displayName + ": " + data.message;
+       appendLog(document.createTextNode(message));
+    }
   });
   
   // On new messages, append it to our message log
@@ -150,8 +156,8 @@ function start(instance) {
 
 window.onload = function () {
   freedom('manifest.json').then(start);
-  window.freedom.emit('New-Joinee','Howla');
-  window.freedom.on('New-Joinee', function(user) {
-    console.log('User Joined :', user);
-  });
+  //window.freedom.emit('New-Joinee','Howla');
+  //window.freedom.on('New-Joinee', function(user) {
+  //  console.log('User Joined :', user);
+  //});
 };
